@@ -20,8 +20,7 @@ const { Message } = require('./models/Message');
 io.on('connection', socket => {
 
   Message.find({}).limit(10).sort({_id: 1})
-    .then(messages => messages)
-    .catch(console.log);
+    .then(messages => socket.emit('listMessages', messages));
 
   socket.on('message', data => {
     Message.create(data)
